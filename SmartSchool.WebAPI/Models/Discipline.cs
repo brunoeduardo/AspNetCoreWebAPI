@@ -6,13 +6,11 @@ namespace SmartSchool.WebAPI.Models
     {
         public Discipline() { }
 
-        public Discipline(int id, string name, int teacherId, Teacher teacher)
+        public Discipline(int id, string name, int teacherId)
         {
             this.Id = id;
             this.Name = name;
             this.TeacherId = teacherId;
-            this.Teacher = teacher;
-
         }
         public int Id { get; set; }
 

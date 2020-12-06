@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SmartSchool.WebAPI.Data;
 using SmartSchool.WebAPI.Models;
 
 namespace SmartSchool.WebAPI.Controllers
@@ -9,39 +11,23 @@ namespace SmartSchool.WebAPI.Controllers
     [Route("api/[controller]")]
     public class StudentController : ControllerBase
     {
-        public List<Student> Students = new List<Student>() {
-            new Student() {
-                Id = 1,
-                Name = "Jony",
-                Surname = "Doll",
-                Phone = "123456"
-            },
-            new Student() {
-                Id = 2,
-                Name = "Mary",
-                Surname = "Doll",
-                Phone = "123456"
-            },
-            new Student() {
-                Id = 3,
-                Name = "Tony",
-                Surname = "Doll",
-                Phone = "123456"
-            }
-        };
-        public StudentController() { }
+        private readonly SmartContext context;
+        public StudentController(SmartContext context)
+        {
+            this.context = context;
+        }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(Students);
+            return Ok(this.context.Students);
 
         }
 
-        [HttpGet("ById/{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var student = Students.FirstOrDefault(stu => stu.Id == id);
+            var student = this.context.Students.FirstOrDefault(stu => stu.Id == id);
 
             if (student == null) return BadRequest("Nothing here");
 
@@ -52,7 +38,7 @@ namespace SmartSchool.WebAPI.Controllers
         [HttpGet("ByName")]
         public IActionResult GetByName(string name, string surname)
         {
-            var student = Students.FirstOrDefault(
+            var student = this.context.Students.FirstOrDefault(
                 stu => stu.Name.Contains(name) && stu.Surname.Contains(surname)
             );
 
@@ -66,8 +52,8 @@ namespace SmartSchool.WebAPI.Controllers
 
         public IActionResult Post(Student student)
         {
-            student.Name = "Post";
-
+            this.context.Add(student);
+            this.context.SaveChanges();
             return Ok(student);
         }
 
@@ -75,8 +61,11 @@ namespace SmartSchool.WebAPI.Controllers
 
         public IActionResult Put(int id, Student student)
         {
-            student.Name = "Put";
+            var st = this.context.Students.AsNoTracking().FirstOrDefault(stu => stu.Id == id);
+            if (st == null) return BadRequest("Student not found");
 
+            this.context.Update(student);
+            this.context.SaveChanges();
             return Ok(student);
         }
 
@@ -84,7 +73,11 @@ namespace SmartSchool.WebAPI.Controllers
 
         public IActionResult Patch(int id, Student student)
         {
-            student.Name = "Patch";
+            var st = this.context.Students.AsNoTracking().FirstOrDefault(stu => stu.Id == id);
+            if (st == null) return BadRequest("Student not found");
+
+            this.context.Update(student);
+            this.context.SaveChanges();
 
             return Ok(student);
         }
@@ -93,6 +86,12 @@ namespace SmartSchool.WebAPI.Controllers
 
         public IActionResult Delete(int id)
         {
+            var student = this.context.Students.FirstOrDefault(stu => stu.Id == id);
+            if (student == null) return BadRequest("Student not found");
+
+            this.context.Remove(student);
+            this.context.SaveChanges();
+
             return Ok("Delete OK");
         }
     }
