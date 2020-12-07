@@ -20,6 +20,15 @@ namespace SmartSchool.WebAPI.Helpers
 
             CreateMap<StudentDto, Student>();
             CreateMap<Student, StudentRegisterDto>().ReverseMap();
+
+            CreateMap<Teacher, TeacherDto>()
+              .ForMember(
+               dest => dest.Name,
+               opt => opt.MapFrom(src => $"{src.Name} {src.Surname}")
+              );
+
+            CreateMap<TeacherDto,TeacherDto>();
+            CreateMap<Teacher, TeacherRegisterDto>().ReverseMap();
         }
     }
 }

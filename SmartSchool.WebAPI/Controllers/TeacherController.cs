@@ -1,7 +1,10 @@
+using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartSchool.WebAPI.Data;
+using SmartSchool.WebAPI.Dtos;
 using SmartSchool.WebAPI.Models;
 
 namespace SmartSchool.WebAPI.Controllers
@@ -12,9 +15,11 @@ namespace SmartSchool.WebAPI.Controllers
     public class TeacherController : ControllerBase
     {
         public IRepository _repo;
+        private readonly IMapper _mapper;
 
-        public TeacherController(IRepository repo)
+        public TeacherController(IRepository repo, IMapper mapper)
         {
+            _mapper = mapper;
             _repo = repo;
         }
 
@@ -22,8 +27,8 @@ namespace SmartSchool.WebAPI.Controllers
 
         public IActionResult Get()
         {
-            var result = _repo.GetAllTeachers(true);
-            return Ok(result);
+            var teachers = _repo.GetAllTeachers(true);
+            return Ok(_mapper.Map<IEnumerable<TeacherDto>>(teachers));
         }
 
         [HttpGet("{id}")]
@@ -33,17 +38,22 @@ namespace SmartSchool.WebAPI.Controllers
             var teacher = _repo.GetTeacherById(id, false);
             if (teacher == null) BadRequest("Nothing found");
 
-            return Ok(teacher);
+            var teacherDto = _mapper.Map<TeacherDto>(teacher);
+
+            return Ok(teacherDto);
         }
 
         [HttpPost]
 
-        public IActionResult Post(Teacher teacher)
+        public IActionResult Post(TeacherRegisterDto model)
         {
+
+            var teacher = _mapper.Map<Teacher>(model);
+
             _repo.Add(teacher);
             if (_repo.SaveChanges())
             {
-                return Ok(teacher);
+                return Created($"/api/teacher/{model.Id}", _mapper.Map<TeacherDto>(teacher));
             }
 
             return BadRequest("Something is wrong");
@@ -51,15 +61,17 @@ namespace SmartSchool.WebAPI.Controllers
 
         [HttpPut("{id}")]
 
-        public IActionResult Put(int id, Teacher teacher)
+        public IActionResult Put(int id, TeacherRegisterDto model)
         {
-            var _teacher = _repo.GetTeacherById(id, false);
-            if (_teacher == null) BadRequest("Nothing found");
+            var teacher = _repo.GetTeacherById(id, false);
+            if (teacher == null) BadRequest("Nothing found");
+
+            _mapper.Map(model, teacher);
 
             _repo.Update(teacher);
             if (_repo.SaveChanges())
             {
-                return Ok(teacher);
+                return Created($"/api/teacher/{model.Id}", _mapper.Map<TeacherDto>(teacher));
             }
 
             return BadRequest("Something is wrong");
@@ -67,16 +79,17 @@ namespace SmartSchool.WebAPI.Controllers
 
         [HttpPatch("{id}")]
 
-        public IActionResult Patch(int id, Teacher teacher)
+        public IActionResult Patch(int id, TeacherRegisterDto model)
         {
+            var teacher = _repo.GetTeacherById(id, false);
+            if (teacher == null) BadRequest("Nothing found");
 
-            var _teacher = _repo.GetTeacherById(id, false);
-            if (_teacher == null) BadRequest("Nothing found");
+            _mapper.Map(model, teacher);
 
             _repo.Update(teacher);
             if (_repo.SaveChanges())
             {
-                return Ok(teacher);
+                return Created($"/api/teacher/{model.Id}", _mapper.Map<TeacherDto>(teacher));
             }
 
             return BadRequest("Something is wrong");
@@ -86,10 +99,10 @@ namespace SmartSchool.WebAPI.Controllers
 
         public IActionResult Delete(int id)
         {
-            var _teacher = _repo.GetTeacherById(id, false);
-            if (_teacher == null) BadRequest("Nothing found");
+            var teacher = _repo.GetTeacherById(id, false);
+            if (teacher == null) BadRequest("Nothing found");
 
-             _repo.Delete(_teacher);
+            _repo.Delete(teacher);
             if (_repo.SaveChanges())
             {
                 return Ok("Teacher deleted");
