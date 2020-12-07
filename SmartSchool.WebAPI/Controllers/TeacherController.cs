@@ -11,37 +11,26 @@ namespace SmartSchool.WebAPI.Controllers
     [Route("api/[controller]")]
     public class TeacherController : ControllerBase
     {
-        private readonly SmartContext context;
+        public IRepository _repo;
 
-        public TeacherController(SmartContext context)
+        public TeacherController(IRepository repo)
         {
-            this.context = context;
-
+            _repo = repo;
         }
-
 
         [HttpGet]
 
         public IActionResult Get()
         {
-            return Ok(this.context.Teachers);
+            var result = _repo.GetAllTeachers(true);
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
 
         public IActionResult GetById(int id)
         {
-            var teacher = this.context.Teachers.FirstOrDefault(t => t.Id == id);
-            if (teacher == null) BadRequest("Nothing found");
-
-            return Ok(teacher);
-        }
-
-        [HttpGet("ByName")]
-
-        public IActionResult GetByName(string name)
-        {
-            var teacher = this.context.Teachers.FirstOrDefault(t => t.Name.Contains(name));
+            var teacher = _repo.GetTeacherById(id, false);
             if (teacher == null) BadRequest("Nothing found");
 
             return Ok(teacher);
@@ -51,22 +40,29 @@ namespace SmartSchool.WebAPI.Controllers
 
         public IActionResult Post(Teacher teacher)
         {
-            this.context.Add(teacher);
-            this.context.SaveChanges();
-            return Ok(teacher);
+            _repo.Add(teacher);
+            if (_repo.SaveChanges())
+            {
+                return Ok(teacher);
+            }
+
+            return BadRequest("Something is wrong");
         }
 
         [HttpPut("{id}")]
 
         public IActionResult Put(int id, Teacher teacher)
         {
-            var _teacher = this.context.Teachers.AsNoTracking().FirstOrDefault(t => t.Id == id);
+            var _teacher = _repo.GetTeacherById(id, false);
             if (_teacher == null) BadRequest("Nothing found");
 
-            this.context.Update(teacher);
-            this.context.SaveChanges();
+            _repo.Update(teacher);
+            if (_repo.SaveChanges())
+            {
+                return Ok(teacher);
+            }
 
-            return Ok(teacher);
+            return BadRequest("Something is wrong");
         }
 
         [HttpPatch("{id}")]
@@ -74,25 +70,32 @@ namespace SmartSchool.WebAPI.Controllers
         public IActionResult Patch(int id, Teacher teacher)
         {
 
-            var _teacher = this.context.Teachers.AsNoTracking().FirstOrDefault(t => t.Id == id);
+            var _teacher = _repo.GetTeacherById(id, false);
             if (_teacher == null) BadRequest("Nothing found");
 
-            this.context.Update(teacher);
-            this.context.SaveChanges();
+            _repo.Update(teacher);
+            if (_repo.SaveChanges())
+            {
+                return Ok(teacher);
+            }
 
-            return Ok(teacher);
+            return BadRequest("Something is wrong");
         }
 
         [HttpDelete("{id}")]
 
         public IActionResult Delete(int id)
         {
-            var _teacher = this.context.Teachers.FirstOrDefault(t => t.Id == id);
+            var _teacher = _repo.GetTeacherById(id, false);
             if (_teacher == null) BadRequest("Nothing found");
 
-            this.context.Remove(_teacher);
-            this.context.SaveChanges();
-            return Ok("Teacher deleted");
+             _repo.Delete(_teacher);
+            if (_repo.SaveChanges())
+            {
+                return Ok("Teacher deleted");
+            }
+
+            return BadRequest("Something is wrong");
         }
     }
 }

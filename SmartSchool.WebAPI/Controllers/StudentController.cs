@@ -11,37 +11,23 @@ namespace SmartSchool.WebAPI.Controllers
     [Route("api/[controller]")]
     public class StudentController : ControllerBase
     {
-        private readonly SmartContext context;
-        public StudentController(SmartContext context)
+        public readonly IRepository _repo;
+        public StudentController(IRepository repo)
         {
-            this.context = context;
+            _repo = repo;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(this.context.Students);
-
+            var result = _repo.GetAllStudents(true);
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var student = this.context.Students.FirstOrDefault(stu => stu.Id == id);
-
-            if (student == null) return BadRequest("Nothing here");
-
-            return Ok(student);
-
-        }
-
-        [HttpGet("ByName")]
-        public IActionResult GetByName(string name, string surname)
-        {
-            var student = this.context.Students.FirstOrDefault(
-                stu => stu.Name.Contains(name) && stu.Surname.Contains(surname)
-            );
-
+            var student = _repo.GetStudentById(id, false); 
             if (student == null) return BadRequest("Nothing here");
 
             return Ok(student);
@@ -49,50 +35,66 @@ namespace SmartSchool.WebAPI.Controllers
         }
 
         [HttpPost]
-
         public IActionResult Post(Student student)
         {
-            this.context.Add(student);
-            this.context.SaveChanges();
-            return Ok(student);
+            _repo.Add(student);
+            if (_repo.SaveChanges())
+            {
+                return Ok(student);
+            }
+
+            return BadRequest("Something is wrong");
         }
 
         [HttpPut("{id}")]
 
         public IActionResult Put(int id, Student student)
         {
-            var st = this.context.Students.AsNoTracking().FirstOrDefault(stu => stu.Id == id);
+            var st = _repo.GetStudentById(id, false);
             if (st == null) return BadRequest("Student not found");
 
-            this.context.Update(student);
-            this.context.SaveChanges();
-            return Ok(student);
+            _repo.Update(student);
+            if (_repo.SaveChanges())
+            {
+                return Ok(student);
+            }
+
+            return BadRequest("Something is wrong");
         }
+
+
 
         [HttpPatch("{id}")]
 
         public IActionResult Patch(int id, Student student)
         {
-            var st = this.context.Students.AsNoTracking().FirstOrDefault(stu => stu.Id == id);
+            var st = _repo.GetStudentById(id, false);
             if (st == null) return BadRequest("Student not found");
 
-            this.context.Update(student);
-            this.context.SaveChanges();
+            _repo.Update(student);
 
-            return Ok(student);
+            if (_repo.SaveChanges())
+            {
+                return Ok(student);
+            }
+
+            return BadRequest("Something is wrong");
         }
 
         [HttpDelete("{id}")]
 
         public IActionResult Delete(int id)
         {
-            var student = this.context.Students.FirstOrDefault(stu => stu.Id == id);
+            var student = _repo.GetStudentById(id, false);
             if (student == null) return BadRequest("Student not found");
 
-            this.context.Remove(student);
-            this.context.SaveChanges();
+            _repo.Delete(student);
+            if (_repo.SaveChanges())
+            {
+                return Ok("Student deleted");
+            }
 
-            return Ok("Delete OK");
+            return BadRequest("Something is wrong");
         }
     }
 }
