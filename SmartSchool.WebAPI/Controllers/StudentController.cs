@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartSchool.WebAPI.Data;
+using SmartSchool.WebAPI.Dtos;
 using SmartSchool.WebAPI.Models;
 
 namespace SmartSchool.WebAPI.Controllers
@@ -12,35 +14,42 @@ namespace SmartSchool.WebAPI.Controllers
     public class StudentController : ControllerBase
     {
         public readonly IRepository _repo;
-        public StudentController(IRepository repo)
+        public readonly IMapper _mapper;
+        public StudentController(IRepository repo, IMapper mapper)
         {
+            _mapper = mapper;
             _repo = repo;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            var result = _repo.GetAllStudents(true);
-            return Ok(result);
+            var students = _repo.GetAllStudents(true);
+
+            return Ok(_mapper.Map<IEnumerable<StudentDto>>(students));
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var student = _repo.GetStudentById(id, false); 
+            var student = _repo.GetStudentById(id, false);
             if (student == null) return BadRequest("Nothing here");
 
-            return Ok(student);
+            var studentDto = _mapper.Map<StudentDto>(student);
+
+            return Ok(studentDto);
 
         }
 
         [HttpPost]
-        public IActionResult Post(Student student)
+        public IActionResult Post(StudentRegisterDto model)
         {
+            var student = _mapper.Map<Student>(model);
+
             _repo.Add(student);
             if (_repo.SaveChanges())
             {
-                return Ok(student);
+                return Created($"/api/student/{model.Id}", _mapper.Map<StudentDto>(student));
             }
 
             return BadRequest("Something is wrong");
@@ -48,15 +57,17 @@ namespace SmartSchool.WebAPI.Controllers
 
         [HttpPut("{id}")]
 
-        public IActionResult Put(int id, Student student)
+        public IActionResult Put(int id, StudentRegisterDto model)
         {
-            var st = _repo.GetStudentById(id, false);
-            if (st == null) return BadRequest("Student not found");
+            var student = _repo.GetStudentById(id, false);
+            if (student == null) return BadRequest("Student not found");
+
+            _mapper.Map(model, student);
 
             _repo.Update(student);
             if (_repo.SaveChanges())
             {
-                return Ok(student);
+                return Created($"/api/student/{model.Id}", _mapper.Map<StudentDto>(student));
             }
 
             return BadRequest("Something is wrong");
@@ -66,16 +77,18 @@ namespace SmartSchool.WebAPI.Controllers
 
         [HttpPatch("{id}")]
 
-        public IActionResult Patch(int id, Student student)
+        public IActionResult Patch(int id, StudentRegisterDto model)
         {
-            var st = _repo.GetStudentById(id, false);
-            if (st == null) return BadRequest("Student not found");
+            var student = _repo.GetStudentById(id, false);
+            if (student == null) return BadRequest("Student not found");
+
+            _mapper.Map(model, student);
 
             _repo.Update(student);
 
             if (_repo.SaveChanges())
             {
-                return Ok(student);
+                return Created($"/api/student/{model.Id}", _mapper.Map<StudentDto>(student));
             }
 
             return BadRequest("Something is wrong");

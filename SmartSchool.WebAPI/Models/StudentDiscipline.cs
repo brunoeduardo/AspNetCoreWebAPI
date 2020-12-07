@@ -1,3 +1,5 @@
+using System;
+
 namespace SmartSchool.WebAPI.Models
 {
     public class StudentDiscipline
@@ -9,6 +11,13 @@ namespace SmartSchool.WebAPI.Models
             this.StudentId = studentId;
             this.DisciplineId = disciplineId;
         }
+
+        public DateTime DateInit { get; set; } = DateTime.Now;
+
+        public DateTime? DateEnd { get; set; }
+     
+        public int? Grade { get; set; } = null;
+
         public int StudentId { get; set; }
 
         public Student Student { get; set; }

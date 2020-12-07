@@ -68,7 +68,7 @@ namespace SmartSchool.WebAPI.Data
             return query.ToArray();
         }
 
-        public Student GetStudentById(int disciplineId, bool includeTeacher = false)
+        public Student GetStudentById(int studentId, bool includeTeacher = false)
         {
             IQueryable<Student> query = _context.Students;
 
@@ -81,7 +81,7 @@ namespace SmartSchool.WebAPI.Data
 
             query = query.AsNoTracking()
             .OrderBy(s => s.Id)
-            .Where(student => student.StudentsDisciplines.Any(sd => sd.DisciplineId == disciplineId));
+            .Where(stu => stu.Id == studentId);
 
             return query.FirstOrDefault();
         }
