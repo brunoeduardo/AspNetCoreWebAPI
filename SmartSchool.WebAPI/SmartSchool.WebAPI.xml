@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SmartSchool.WebAPI</name>
+    </assembly>
+    <members>
+        <member name="M:SmartSchool.WebAPI.Controllers.StudentController.Get">
+            <summary>
+            Method responsible to returns all students
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmartSchool.WebAPI.Controllers.StudentController.GetById(System.Int32)">
+            <summary>
+            Method responsible to return student by id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmartSchool.WebAPI.Controllers.StudentController.Post(SmartSchool.WebAPI.Dtos.StudentRegisterDto)">
+            <summary>
+            Method responsible to create a student
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmartSchool.WebAPI.Controllers.StudentController.Put(System.Int32,SmartSchool.WebAPI.Dtos.StudentRegisterDto)">
+            <summary>
+            Method responsible to update a student
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmartSchool.WebAPI.Controllers.StudentController.Patch(System.Int32,SmartSchool.WebAPI.Dtos.StudentRegisterDto)">
+            <summary>
+            Method responsible to update a student
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmartSchool.WebAPI.Controllers.StudentController.Delete(System.Int32)">
+            <summary>
+            Method responsible to delete a student
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmartSchool.WebAPI.Controllers.TeacherController.Get">
+            <summary>
+            Method responsible to returns all teachers
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmartSchool.WebAPI.Controllers.TeacherController.GetById(System.Int32)">
+            <summary>
+            Method responsible to return teacher by id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmartSchool.WebAPI.Controllers.TeacherController.Post(SmartSchool.WebAPI.Dtos.TeacherRegisterDto)">
+            <summary>
+            Method responsible to create a teacher
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmartSchool.WebAPI.Controllers.TeacherController.Put(System.Int32,SmartSchool.WebAPI.Dtos.TeacherRegisterDto)">
+            <summary>
+            Method responsible to update teacher
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmartSchool.WebAPI.Controllers.TeacherController.Patch(System.Int32,SmartSchool.WebAPI.Dtos.TeacherRegisterDto)">
+            <summary>
+            Method responsible to update teacher
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmartSchool.WebAPI.Controllers.TeacherController.Delete(System.Int32)">
+            <summary>
+            Method responsible to delete teacher
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

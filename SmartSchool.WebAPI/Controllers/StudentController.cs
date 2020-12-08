@@ -10,7 +10,8 @@ using SmartSchool.WebAPI.Models;
 namespace SmartSchool.WebAPI.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class StudentController : ControllerBase
     {
         public readonly IRepository _repo;
@@ -21,6 +22,10 @@ namespace SmartSchool.WebAPI.Controllers
             _repo = repo;
         }
 
+        /// <summary>
+        /// Method responsible to returns all students
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -29,6 +34,10 @@ namespace SmartSchool.WebAPI.Controllers
             return Ok(_mapper.Map<IEnumerable<StudentDto>>(students));
         }
 
+        /// <summary>
+        /// Method responsible to return student by id
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -41,6 +50,10 @@ namespace SmartSchool.WebAPI.Controllers
 
         }
 
+        /// <summary>
+        /// Method responsible to create a student
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Post(StudentRegisterDto model)
         {
@@ -55,6 +68,10 @@ namespace SmartSchool.WebAPI.Controllers
             return BadRequest("Something is wrong");
         }
 
+        /// <summary>
+        /// Method responsible to update a student
+        /// </summary>
+        /// <returns></returns>
         [HttpPut("{id}")]
 
         public IActionResult Put(int id, StudentRegisterDto model)
@@ -74,7 +91,10 @@ namespace SmartSchool.WebAPI.Controllers
         }
 
 
-
+        /// <summary>
+        /// Method responsible to update a student
+        /// </summary>
+        /// <returns></returns>
         [HttpPatch("{id}")]
 
         public IActionResult Patch(int id, StudentRegisterDto model)
@@ -94,6 +114,10 @@ namespace SmartSchool.WebAPI.Controllers
             return BadRequest("Something is wrong");
         }
 
+        /// <summary>
+        /// Method responsible to delete a student
+        /// </summary>
+        /// <returns></returns>
         [HttpDelete("{id}")]
 
         public IActionResult Delete(int id)

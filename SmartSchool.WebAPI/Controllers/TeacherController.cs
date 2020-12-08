@@ -11,7 +11,8 @@ namespace SmartSchool.WebAPI.Controllers
 {
 
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("2.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class TeacherController : ControllerBase
     {
         public IRepository _repo;
@@ -23,6 +24,10 @@ namespace SmartSchool.WebAPI.Controllers
             _repo = repo;
         }
 
+        /// <summary>
+        /// Method responsible to returns all teachers
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
 
         public IActionResult Get()
@@ -31,6 +36,10 @@ namespace SmartSchool.WebAPI.Controllers
             return Ok(_mapper.Map<IEnumerable<TeacherDto>>(teachers));
         }
 
+        /// <summary>
+        /// Method responsible to return teacher by id
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("{id}")]
 
         public IActionResult GetById(int id)
@@ -43,6 +52,10 @@ namespace SmartSchool.WebAPI.Controllers
             return Ok(teacherDto);
         }
 
+        /// <summary>
+        /// Method responsible to create a teacher
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
 
         public IActionResult Post(TeacherRegisterDto model)
@@ -59,6 +72,10 @@ namespace SmartSchool.WebAPI.Controllers
             return BadRequest("Something is wrong");
         }
 
+        /// <summary>
+        /// Method responsible to update teacher
+        /// </summary>
+        /// <returns></returns>
         [HttpPut("{id}")]
 
         public IActionResult Put(int id, TeacherRegisterDto model)
@@ -77,6 +94,10 @@ namespace SmartSchool.WebAPI.Controllers
             return BadRequest("Something is wrong");
         }
 
+        /// <summary>
+        /// Method responsible to update teacher
+        /// </summary>
+        /// <returns></returns>
         [HttpPatch("{id}")]
 
         public IActionResult Patch(int id, TeacherRegisterDto model)
@@ -95,6 +116,10 @@ namespace SmartSchool.WebAPI.Controllers
             return BadRequest("Something is wrong");
         }
 
+        /// <summary>
+        /// Method responsible to delete teacher
+        /// </summary>
+        /// <returns></returns>
         [HttpDelete("{id}")]
 
         public IActionResult Delete(int id)

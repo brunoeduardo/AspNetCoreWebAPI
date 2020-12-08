@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "up1wZke+pNBbFdzOBMehbo0602jyjk6cuFBy0m+V2GtZfozH960t4sd2L7kVRTaf+ZVZZXrTLYTMKUgSTr/tsA==",
+  "dgSpecHash": "qr3ROrYj2BsCxKM4oyiZP5CKWHZbrXDyrcposVoLFuuk95gZE6W/DLYIzlNro8yvUW30s+sYusIr26dGKf9F9g==",
   "success": true,
   "projectFilePath": "/Users/brunoeduardo/Documents/projetos/SmartSchool/SmartSchool.WebAPI/SmartSchool.WebAPI.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,8 @@
     "/Users/brunoeduardo/.nuget/packages/microsoft.aspnetcore.authentication.openidconnect/5.0.0/microsoft.aspnetcore.authentication.openidconnect.5.0.0.nupkg.sha512",
     "/Users/brunoeduardo/.nuget/packages/microsoft.aspnetcore.jsonpatch/3.1.2/microsoft.aspnetcore.jsonpatch.3.1.2.nupkg.sha512",
     "/Users/brunoeduardo/.nuget/packages/microsoft.aspnetcore.mvc.newtonsoftjson/3.1.2/microsoft.aspnetcore.mvc.newtonsoftjson.3.1.2.nupkg.sha512",
+    "/Users/brunoeduardo/.nuget/packages/microsoft.aspnetcore.mvc.versioning/4.2.0/microsoft.aspnetcore.mvc.versioning.4.2.0.nupkg.sha512",
+    "/Users/brunoeduardo/.nuget/packages/microsoft.aspnetcore.mvc.versioning.apiexplorer/4.2.0/microsoft.aspnetcore.mvc.versioning.apiexplorer.4.2.0.nupkg.sha512",
     "/Users/brunoeduardo/.nuget/packages/microsoft.bcl.asyncinterfaces/1.1.0/microsoft.bcl.asyncinterfaces.1.1.0.nupkg.sha512",
     "/Users/brunoeduardo/.nuget/packages/microsoft.bcl.hashcode/1.1.0/microsoft.bcl.hashcode.1.1.0.nupkg.sha512",
     "/Users/brunoeduardo/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512",

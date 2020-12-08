@@ -66,3 +66,6 @@
 /Users/brunoeduardo/Documents/projetos/SmartSchool/SmartSchool.WebAPI/bin/Debug/net5.0/Newtonsoft.Json.Bson.dll
 /Users/brunoeduardo/Documents/projetos/SmartSchool/SmartSchool.WebAPI/bin/Debug/net5.0/AutoMapper.dll
 /Users/brunoeduardo/Documents/projetos/SmartSchool/SmartSchool.WebAPI/bin/Debug/net5.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+/Users/brunoeduardo/Documents/projetos/SmartSchool/SmartSchool.WebAPI/bin/Debug/net5.0/Microsoft.AspNetCore.Mvc.Versioning.dll
+/Users/brunoeduardo/Documents/projetos/SmartSchool/SmartSchool.WebAPI/bin/Debug/net5.0/Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer.dll
+/Users/brunoeduardo/Documents/projetos/SmartSchool/SmartSchool.WebAPI/bin/Debug/net5.0/SmartSchool.WebAPI.xml
