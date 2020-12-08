@@ -17,5 +17,6 @@ namespace SmartSchool.WebAPI.Helpers
         public int? Registration { get; set; } = null;
         public string Name { get; set; } = string.Empty;
         public int? Active { get; set; } = null;
+        public string OrderBy { get; set; } = string.Empty;
     }
 }

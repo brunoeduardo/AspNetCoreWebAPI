@@ -46,8 +46,6 @@ namespace SmartSchool.WebAPI.Data
                 .ThenInclude(d => d.Teacher);
             }
 
-            query = query.AsNoTracking().OrderBy(s => s.Id);
-
             if (!string.IsNullOrEmpty(pageParams.Name))
                 query = query.Where(student => student.Name.ToUpper().Contains(pageParams.Name.ToUpper()) ||
                                                student.Surname.ToUpper().Contains(pageParams.Name.ToUpper()));
@@ -57,6 +55,16 @@ namespace SmartSchool.WebAPI.Data
 
             if (pageParams.Active != null)
                 query = query.Where(student => student.Active == (pageParams.Active != 0));
+
+
+            if (!string.IsNullOrEmpty(pageParams.OrderBy) && pageParams.OrderBy == "desc") //asc
+            {
+                query = query.AsNoTracking().OrderByDescending(s => s.Id);
+            }
+            else
+            {
+                query = query.AsNoTracking().OrderBy(s => s.Id);
+            }
 
             return await PageList<Student>.CreateAsync(query, pageParams.PageNumber, pageParams.PageSize);
 
