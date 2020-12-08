@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using SmartSchool.WebAPI.Helpers;
 using SmartSchool.WebAPI.Models;
 
 namespace SmartSchool.WebAPI.Data
@@ -13,7 +14,7 @@ namespace SmartSchool.WebAPI.Data
 
         bool SaveChanges();
 
-        Task<Student[]> GetAllStudentsAsync(bool includeTeacher = false);
+        Task<PageList<Student>> GetAllStudentsAsync(PageParams pageParams, bool includeTeacher = false);
 
         Student[] GetAllStudentsByDisciplineId(int studentId, bool includeTeacher = false);
 

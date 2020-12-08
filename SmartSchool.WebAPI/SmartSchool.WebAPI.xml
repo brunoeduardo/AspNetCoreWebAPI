@@ -4,7 +4,7 @@
         <name>SmartSchool.WebAPI</name>
     </assembly>
     <members>
-        <member name="M:SmartSchool.WebAPI.Controllers.StudentController.Get">
+        <member name="M:SmartSchool.WebAPI.Controllers.StudentController.Get(SmartSchool.WebAPI.Helpers.PageParams)">
             <summary>
             Method responsible to returns all students
             </summary>

@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SmartSchool.WebAPI.Helpers;
 using SmartSchool.WebAPI.Models;
 
 namespace SmartSchool.WebAPI.Data
@@ -13,7 +14,7 @@ namespace SmartSchool.WebAPI.Data
         {
             _context = context;
         }
-        
+
         public void Add<T>(T entity) where T : class
         {
             _context.Add(entity);
@@ -34,7 +35,7 @@ namespace SmartSchool.WebAPI.Data
             return (_context.SaveChanges() > 0);
         }
 
-        public async Task<Student[]> GetAllStudentsAsync(bool includeTeacher = false)
+        public async Task<PageList<Student>> GetAllStudentsAsync(PageParams pageParams, bool includeTeacher = false)
         {
             IQueryable<Student> query = _context.Students;
 
@@ -47,7 +48,17 @@ namespace SmartSchool.WebAPI.Data
 
             query = query.AsNoTracking().OrderBy(s => s.Id);
 
-            return await query.ToArrayAsync();
+            if (!string.IsNullOrEmpty(pageParams.Name))
+                query = query.Where(student => student.Name.ToUpper().Contains(pageParams.Name.ToUpper()) ||
+                                               student.Surname.ToUpper().Contains(pageParams.Name.ToUpper()));
+
+            if (pageParams.Registration > 0)
+                query = query.Where(student => student.Registration == pageParams.Registration);
+
+            if (pageParams.Active != null)
+                query = query.Where(student => student.Active == (pageParams.Active != 0));
+
+            return await PageList<Student>.CreateAsync(query, pageParams.PageNumber, pageParams.PageSize);
 
         }
 
