@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SmartSchool.WebAPI.Models;
 
@@ -33,7 +34,7 @@ namespace SmartSchool.WebAPI.Data
             return (_context.SaveChanges() > 0);
         }
 
-        public Student[] GetAllStudents(bool includeTeacher = false)
+        public async Task<Student[]> GetAllStudentsAsync(bool includeTeacher = false)
         {
             IQueryable<Student> query = _context.Students;
 
@@ -46,7 +47,7 @@ namespace SmartSchool.WebAPI.Data
 
             query = query.AsNoTracking().OrderBy(s => s.Id);
 
-            return query.ToArray();
+            return await query.ToArrayAsync();
 
         }
 
@@ -86,7 +87,7 @@ namespace SmartSchool.WebAPI.Data
             return query.FirstOrDefault();
         }
 
-        public Teacher[] GetAllTeachers(bool includeStudent = false)
+        public async Task<Teacher[]> GetAllTeachersAsync(bool includeStudent = false)
         {
             IQueryable<Teacher> query = _context.Teachers;
 
@@ -99,7 +100,7 @@ namespace SmartSchool.WebAPI.Data
 
             query = query.AsNoTracking().OrderBy(s => s.Id);
 
-            return query.ToArray();
+            return await query.ToArrayAsync();
         }
 
         public Teacher[] GetAllTeachersByDisciplineId(int disciplineId, bool includeStudent = false)

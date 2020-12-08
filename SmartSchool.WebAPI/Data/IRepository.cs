@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using SmartSchool.WebAPI.Models;
 
 namespace SmartSchool.WebAPI.Data
@@ -12,13 +13,13 @@ namespace SmartSchool.WebAPI.Data
 
         bool SaveChanges();
 
-        Student[] GetAllStudents(bool includeTeacher = false);
+        Task<Student[]> GetAllStudentsAsync(bool includeTeacher = false);
 
         Student[] GetAllStudentsByDisciplineId(int studentId, bool includeTeacher = false);
 
         Student GetStudentById(int disciplineId, bool includeTeacher = false);
 
-        Teacher[] GetAllTeachers(bool includeStudent = false);
+        Task<Teacher[]> GetAllTeachersAsync(bool includeStudent = false);
 
         Teacher[] GetAllTeachersByDisciplineId(int disciplineId, bool includeStudent = false);
 

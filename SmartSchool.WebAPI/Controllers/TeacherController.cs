@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,9 +31,9 @@ namespace SmartSchool.WebAPI.Controllers
         /// <returns></returns>
         [HttpGet]
 
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var teachers = _repo.GetAllTeachers(true);
+            var teachers = await _repo.GetAllTeachersAsync(true);
             return Ok(_mapper.Map<IEnumerable<TeacherDto>>(teachers));
         }
 
